@@ -28,9 +28,6 @@ def extract_images(file: str, image_path: str):
         page = pdf[page_index]
         image: Pixmap = page.get_pixmap(dpi=200)
         image.save(os.path.join(image_path, f'page_{page_index}.png'), "PNG")
-        # image = page.get_pixmap().get_image_data(output='png')
-        # img = Image.frombytes('RGB', (image.width, image.height), image.samples)
-        # img.save(os.path.join(image_path,f'page_{page_index}.png'), 'PNG')
 
 
 def read_pdfs():
@@ -62,8 +59,5 @@ def extract_tables(image_path):
             tables[0].df.to_excel(output, index=False)
 
 
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     read_pdfs()
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
