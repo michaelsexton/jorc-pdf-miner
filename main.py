@@ -1,11 +1,14 @@
 import hashlib
 
 import os
+from io import BytesIO
 
+import boto3
 import fitz
 import img2table.ocr
-from fitz import Pixmap
+
 from img2table.document import Image
+from pymupdf import Pixmap
 
 JORC_WORDS = ["PROVED", "PROBABLE", "MEASURED", "INDICATED", "INFERRED"]
 
@@ -57,6 +60,15 @@ def extract_tables(image_path):
             output = os.path.join(excel_directory, "page-{0}.xlsx".format(i))
 
             tables[0].df.to_excel(output, index=False)
+
+
+def boto_bit():
+    s3 = boto3.client('s3')
+    pdf_stream = BytesIO()
+    s3.download_fileobj("ga-aws-trim-references",
+                        "0050d04ea101187cfa73d97f983278d3/NT - Spring Hill resource statement Thor Mining PLC ASX announcement 21 January 2011.PDF",
+                        pdf_stream)
+    pdf_stream.seek(0)
 
 
 if __name__ == '__main__':
